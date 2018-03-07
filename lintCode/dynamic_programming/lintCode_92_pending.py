@@ -14,4 +14,15 @@ class Solution(object):
 
     def backPack(self, m, A):
         # write your code here
+        length = len(A)
+        res = [[0 for _ in range(length + 1)] for _ in range(length + 1)]
+        for i in range(length):
+            res[0][i] = A[i]
+            res[i][0] = A[i]
+
+
+
+        for i in range(length):
+            if res[i - 1] + A[i] < m:
+                res[i] = res[i - 1] + A[i]
         pass
