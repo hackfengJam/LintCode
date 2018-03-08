@@ -12,17 +12,52 @@ class Solution(object):
     @return: The maximum size
     """
 
-    def backPack(self, m, A):
+    def backPack_1(self, m, A):
+        """
+        Memory Limit Exceeded
+        总耗时: 3368 ms
+        80 % 数据通过测试.
+        """
         # write your code here
         length = len(A)
-        res = [[0 for _ in range(length + 1)] for _ in range(length + 1)]
-        for i in range(length):
-            res[0][i] = A[i]
-            res[i][0] = A[i]
+        res = [[0 for _ in range(m + 1)] for _ in range(length)]
+        # for i in range(length + 1):
+        #     res[i][0] = 0
+        for j in range(1, m + 1):
+            if A[0] <= j:
+                res[0][j] = A[0]
+            else:
+                res[0][j] = 0
+            for i in range(1, length):
+                if A[i] > j:
+                    res[i][j] = res[i - 1][j]
+                else:
+                    res[i][j] = max(res[i - 1][j - A[i]] + A[i], res[i - 1][j])
+        return res[length - 1][m]
+
+    def backPack(self, m, A):
+        """
+        Time Limit Exceeded
+        总耗时: 5571 ms
+        80% 数据通过测试.
+        """
+        # write your code here
+        length = len(A)
+        res = [0 for _ in range(m + 1)]
+        for j in range(1, m + 1):
+            if A[0] <= j:
+                res[j] = A[0]
+            else:
+                res[j] = 0
+        for i in range(1, length):
+            # for j in range(1, m + 1):
+            #     if A[i] <= m - j + 1:
+            #         res[m - j + 1] = max(res[m + 1 - j - A[i]] + A[i], res[m + 1 - j])
+            for j in range(m, 0, -1):
+                if A[i] <= j:
+                    res[j] = max(res[j - A[i]] + A[i], res[j])
+        return res[m]
 
 
-
-        for i in range(length):
-            if res[i - 1] + A[i] < m:
-                res[i] = res[i - 1] + A[i]
-        pass
+s = Solution()
+print s.backPack(11, [2, 3, 5, 7])

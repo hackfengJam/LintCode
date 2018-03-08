@@ -15,4 +15,6 @@ def text_sort():
 
 if __name__ == '__main__':
     # text_str()
-    text_sort()
+    # text_sort()
+    for i in range(10, 1, -1):
+        print i
